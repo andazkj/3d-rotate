@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" onselectstart="false">
+<head>
+	<meta charset="UTF-8" >
+	<title>3D旋转相册</title>
+	<style>
+			*{
+				padding: 0;
+				margin: 0;
+			}
+			body{
+				background: #000;
+				overflow: hidden;
+			}
+		.container {
+			width: 200px;
+			height: 200px;
+			margin: 200px auto;
+			-webkit-transition: -webkit-transform 1s;
+			-moz-transition: -moz-transform 1s;
+			transition: transform 1s;
+
+			-webkit-transform-style: preserve-3d;
+			-moz-transform-style: preserve-3d;
+			transform-style: preserve-3d;	
+			position: relative;
+
+			transform:rotateX(-5deg);
+			}
+		.piece {
+			width: 200px;
+			box-shadow: 0 1px 3px rgba(0,0,0,.5);
+			-webkit-transition: opacity 1s, -webkit-transform 1s;
+			-moz-transition: opacity 1s, -moz-transform 1s;
+			transition: opacity 1s, transform 1s;
+			box-shadow: 0 0 10px #ffffff;
+			border-radius: 10px;
+			/*倒影*/
+			box-reflect:below 8px linear-gradient(top,rgba(0,0,0,0) 40%,rgba(0,0,0,.7) 100%);
+			-webkit-box-reflect:below 8px -webkit-linear-gradient(rgba(0,0,0,0) 40%, rgba(0,0,0,.7) 100%);
+			-webkit-box-reflect:below 8px -o-linear-gradient(rgba(0,0,0,0) 40%, rgba(0,0,0,.7) 100%);
+			-webkit-box-reflect:below 8px linear-gradient(rgba(0,0,0,0) 40%, rgba(0,0,0,.7) 100%);
+			position: absolute;
+			bottom: 0;
+			}
+			img:nth-child(1) { transform: rotateY(   0deg ) translateZ(350px);}
+			img:nth-child(2) { transform: rotateY(  40deg ) translateZ(350px);}
+			img:nth-child(3) { transform: rotateY(  80deg ) translateZ(350px);}
+			img:nth-child(4) { transform: rotateY( 120deg ) translateZ(350px);}
+			img:nth-child(5) { transform: rotateY( 160deg ) translateZ(350px);}
+			img:nth-child(6) { transform: rotateY( 200deg ) translateZ(350px);}
+			img:nth-child(7) { transform: rotateY( 240deg ) translateZ(350px);}
+			img:nth-child(8) { transform: rotateY( 280deg ) translateZ(350px);}
+			img:nth-child(9) { transform: rotateY( 320deg ) translateZ(350px);}
+	</style>
+</head>
+<body>
+		<div class="container">
+			<!-- <img src="demo.png" alt="" class="piece">
+			<img src="demo.png" alt="" class="piece">
+			<img src="demo.png" alt="" class="piece">
+			<img src="demo.png" alt="" class="piece">
+			<img src="demo.png" alt="" class="piece">
+			<img src="demo.png" alt="" class="piece">
+			<img src="demo.png" alt="" class="piece">
+			<img src="demo.png" alt="" class="piece">
+			<img src="demo.png" alt="" class="piece"> -->
+		</div>
+</body>
+<script>
+
+	// 显示图片
+	var htmlPic = '', arrayPic = [1, 2, 3, 4, 5, 6, 7, 8, 9], rotate = 360 / arrayPic.length;
+
+	arrayPic.forEach(function(i) {
+	htmlPic = htmlPic + '<img ondragstart="return false" id="piece'+ i +'" src="mm'+ i +'.jpg" class="piece" />';	
+	});
+
+	transform = function(element, value, key) {
+			key = key || "Transform";
+			["Moz", "O", "Ms", "Webkit", ""].forEach(function(prefix) {
+				element.style[prefix + key] = value;	
+			});	
+			
+			return element;
+		}
+
+	// 元素
+	var  eleContainer = document.querySelector('.container');
+	var  indexPiece = 0;
+	// 元素
+	var elePics = document.querySelector('.piece');
+	var  transZ = 64 / Math.tan((rotate / 2 / 180) * Math.PI);
+
+	eleContainer.innerHTML = htmlPic;
+	eleContainer.addEventListener("click", function() {
+		transform(this, "rotateX(-5deg) rotateY("+ (-1 * rotate * ++indexPiece) +"deg)");	
+		console.log(rotate,indexPiece);
+	});
+
+	// arrayPic.forEach(function(i, j) {
+	// 	var img=document.querySelector('#piece'+i);
+	// 	transform(img, "rotateY("+ j * rotate +"deg) translateZ("+ (transZ + 20) +"px)");	
+	// });	
+
+</script>
+</html>
